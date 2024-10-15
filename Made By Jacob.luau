@@ -7,7 +7,6 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 
--- Auto Rebirth
 Tab:AddToggle({
 	Name = "Auto Rebirth",
 	Default = false,
@@ -21,21 +20,6 @@ Tab:AddToggle({
 	end    
 })
 
--- Auto Click
-Tab:AddToggle({
-	Name = "Auto Click",
-	Default = false,
-	Callback = function(Value)
-		getgenv().AutoClick = Value
-		
-		while getgenv().AutoClick do
-			game:GetService("ReplicatedStorage"):WaitForChild("ClickEvent"):FireServer() -- Assuming "ClickEvent" is the remote for clicking
-			wait(0.1) -- Adjust the wait time for desired click speed
-		end
-	end    
-})
-
--- Anti-AFK
 Tab:AddToggle({
 	Name = "Enable Anti-AFK",
 	Default = false,
@@ -50,12 +34,11 @@ Tab:AddToggle({
 				rootPart.CFrame = rootPart.CFrame * CFrame.new(0, 0, 0.1) -- Small movement to prevent AFK detection
 			end
 
-			wait(60) -- Wait for 60 seconds before moving again
+			wait(60)
 		end
 	end    
 })
 
--- Claim Quest without waiting
 Tab:AddButton({
 	Name = "Claim Quest for without waiting",
 	Callback = function()
@@ -74,7 +57,6 @@ Tab:AddButton({
 	end    
 })
 
--- Eggs Tab
 local TabEggs = Window:MakeTab({
 	Name = "Eggs",
 	Icon = "rbxassetid://4483345998",
@@ -102,7 +84,6 @@ TabEggs:AddDropdown({
 	end    
 })
 
--- Teleports Tab
 local TabTeleports = Window:MakeTab({
 	Name = "Teleports",
 	Icon = "rbxassetid://4483345998",
