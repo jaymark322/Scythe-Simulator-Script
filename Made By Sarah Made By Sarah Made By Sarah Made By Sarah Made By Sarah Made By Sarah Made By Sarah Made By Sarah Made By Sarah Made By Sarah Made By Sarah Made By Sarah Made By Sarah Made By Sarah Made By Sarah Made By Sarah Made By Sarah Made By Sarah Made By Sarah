@@ -1,0 +1,284 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "Scythe Simulator Made by Sarah", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+-- Key system variables
+local validKeys = {
+    "KEY12345",
+    "KEY67890",
+    "KEYABCDEF"
+}
+
+local isValidKey = false
+
+-- Function to validate key
+local function validateKey(key)
+    if table.find(validKeys, key) then
+        isValidKey = true
+        OrionLib:MakeNotification({
+            Name = "Access Granted",
+            Content = "Your key is valid!",
+            Duration = 3,
+            Image = "rbxassetid://4483345998"
+        })
+    else
+        isValidKey = false
+        OrionLib:MakeNotification({
+            Name = "Access Denied",
+            Content = "Your key is invalid!",
+            Duration = 3,
+            Image = "rbxassetid://4483345998"
+        })
+    end
+end
+
+-- Main Tab
+local Tab = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local Section = Tab:AddSection({
+    Name = "Reminder unequip one pet to make inf pet Work"
+})
+
+-- Key Input
+Tab:AddInput({
+    Name = "Enter Your Key",
+    PlaceholderText = "Enter your key here...",
+    TextChanged = function(newText)
+        validateKey(newText)
+    end    
+})
+
+Tab:AddButton({
+    Name = "Equip Infinite Pet",
+    Callback = function()
+        if not isValidKey then
+            OrionLib:MakeNotification({
+                Name = "Access Denied",
+                Content = "You must enter a valid key to use this feature.",
+                Duration = 3,
+                Image = "rbxassetid://4483345998"
+            })
+            return
+        end
+        
+        for i = 1, DupeAmount do
+            game:GetService("ReplicatedStorage"):WaitForChild("PetEquip"):FireServer("KrakenPet")
+        end    
+    end    
+})
+
+Tab:AddDropdown({
+    Name = "How much Pet you wanna equip",
+    Default = "1",
+    Options = {"1", "10", "20", "30", "40", "50", "100", "200", "300", "400", "500", "1000", "2000", "3000", "4000", "5000", "10000"},
+    Callback = function(Value)
+        DupeAmount = Value
+    end    
+})
+
+Tab:AddToggle({
+    Name = "Auto Rebirth",
+    Default = false,
+    Callback = function(Value)
+        getgenv(). Rebirth = Value
+        
+        while getgenv(). Rebirth do
+            game:GetService("ReplicatedStorage"):WaitForChild("RebirthPlayer"):FireServer()
+            wait(0.2)
+        end
+    end    
+})
+
+Tab:AddToggle({
+    Name = "Spawn Gems (OP)",
+    Default = false,
+    Callback = function(Value)
+        getgenv(). gems = Value
+        
+        while getgenv(). gems do
+            game:GetService("ReplicatedStorage"):WaitForChild("PlaytimeRewards"):FireServer(7)
+            wait(0.001)
+        end
+    end    
+})
+
+Tab:AddButton({
+    Name = "Equip any pet you want",
+    Callback = function()
+        if not isValidKey then
+            OrionLib:MakeNotification({
+                Name = "Access Denied",
+                Content = "You must enter a valid key to use this feature.",
+                Duration = 3,
+                Image = "rbxassetid://4483345998"
+            })
+            return
+        end
+        
+        game:GetService("ReplicatedStorage"):WaitForChild("PetEquip"):FireServer(Pet)
+    end    
+})
+
+Tab:AddDropdown({
+    Name = "Choose what pet",
+    Default = "KrakenPet",
+    Options = {"KrakenPet", "PegasusPet", "PhoenixPet", "HydraDominusAstra", "BlueDominusPet", "ZeusPet", "PoseidonPet"},
+    Callback = function(Value)
+        Pet = Value
+    end    
+})
+
+Tab:AddButton({
+    Name = "Allows you to equip Inf pets",
+    Callback = function()
+        -- skid if ur gay Assuming you have access to game and game.Players.LocalPlayer
+        local player = game.Players.LocalPlayer
+
+        -- Check if PlayerData exists
+        if player.PlayerData then
+            -- Find InventoryInfo under PlayerData
+            local inventoryInfo = player.PlayerData:FindFirstChild("InventoryInfo")
+
+            -- Check if InventoryInfo exists and has PetLimit
+            if inventoryInfo and inventoryInfo:FindFirstChild("PetLimit") then
+                -- Set PetLimit to 1000000
+                inventoryInfo.PetLimit.Value = 1000000
+                print("Changed PetLimit to 1000000")
+            else
+                warn("InventoryInfo or PetLimit not found.")
+            end
+        else
+            warn("PlayerData not found!")
+        end
+    end    
+})
+
+Tab:AddButton({
+    Name = "Claim Quest for without waiting",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+
+        -- Check if PlayerData exists
+        if player.PlayerData then
+            local questData = player.PlayerData:FindFirstChild("QuestData")
+
+            -- Check if QuestData exists and has CanClaim
+            if questData and questData:FindFirstChild("CanClaim") then
+                questData.CanClaim.Value = true
+                print("Changed CanClaim to true")
+            else
+                warn("QuestData or CanClaim not found.")
+            end
+        else
+            warn("PlayerData not found!")
+        end
+    end    
+})
+
+Tab:AddButton({
+    Name = "Inf Storage Size",
+    Callback = function()
+        local player = game.Players.LocalPlayer
+
+        -- Check if PlayerData exists
+        if player.PlayerData then
+            -- Find InventoryInfo under PlayerData
+            local inventoryInfo = player.PlayerData:FindFirstChild("InventoryInfo")
+
+            -- Check if InventoryInfo exists and has StorageSize
+            if inventoryInfo and inventoryInfo:FindFirstChild("StorageSize") then
+                -- Set StorageSize to 1000000
+                inventoryInfo.StorageSize.Value = 1000000
+                print("Changed StorageSize to 1000000")
+            else
+                warn("InventoryInfo or StorageSize not found.")
+            end
+        else
+            warn("PlayerData not found!")
+        end
+    end    
+})
+
+-- Eggs Tab
+local Tab = Window:MakeTab({
+    Name = "Eggs",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+Tab:AddToggle({
+    Name = "Auto Hatch Egg",
+    Default = false,
+    Callback = function(Value)
+        getgenv(). egs = Value
+        
+        while getgenv(). egs do
+            game:GetService("ReplicatedStorage"):WaitForChild("HatchPet"):FireServer(eggs, 1, 44)
+            wait(0.2)
+        end
+    end    
+})
+
+Tab:AddDropdown({
+    Name = "Choose Which Egg To Auto Hatch",
+    Default = "Egg1",
+    Options = {"Egg1", "Egg2", "Egg3", "Egg4", "Egg5"},
+    Callback = function(Value)
+        eggs = Value
+    end    
+})
+
+-- Teleports Tab
+local Tab = Window:MakeTab({
+    Name = "Teleports",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+Tab:AddButton({
+    Name = "World 1",
+    Callback = function()
+        local rootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
+        rootPart.CFrame = CFrame.new(22.797048568725586, 4.749998569488525, 0.7367979884147644)
+    end    
+})
+
+Tab:AddButton({
+    Name = "World 2",
+    Callback = function()
+        local rootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
+        rootPart.CFrame = CFrame.new(-1147.4737548828125, 4.749999046325684, 0.1376972198486328)
+    end    
+})
+
+Tab:AddToggle({
+    Name = "Auto Tp To King World 1",
+    Default = false,
+    Callback = function(Value)
+        getgenv(). spawnone = Value
+
+        while getgenv(). spawnone do
+            local rootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
+            rootPart.CFrame = CFrame.new(2.0492165088653564, 17.099992752075195, 103.42451477050781)
+            wait(2)
+        end
+    end    
+})
+
+Tab:AddToggle({
+    Name = "Auto Tp To King World 2",
+    Default = false,
+    Callback = function(Value)
+        getgenv(). spawntwo = Value
+
+        while getgenv(). spawntwo do
+            local rootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
+            rootPart.CFrame = CFrame.new(-1147.75732421875, 17.099992752075195, 104.32843017578125)
+            wait(2)
+        end
+    end    
+})
+
